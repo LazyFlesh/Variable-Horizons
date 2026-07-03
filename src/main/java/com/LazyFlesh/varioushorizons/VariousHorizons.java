@@ -3,6 +3,9 @@ package com.LazyFlesh.varioushorizons;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.gtnewhorizon.gtnhlib.config.ConfigException;
+import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -10,18 +13,24 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
-@Mod(modid = VariousHorizons.MODID, version = Tags.VERSION, name = "Various Horizons", acceptedMinecraftVersions = "[1.7.10]")
+@Mod(
+    modid = VariousHorizons.MODID,
+    version = Tags.VERSION,
+    name = "Various Horizons",
+    acceptedMinecraftVersions = "[1.7.10]")
 public class VariousHorizons {
 
     public static final String MODID = "varioushorizons";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
-    @SidedProxy(clientSide = "com.LazyFlesh.varioushorizons.ClientProxy", serverSide = "com.LazyFlesh.varioushorizons.CommonProxy")
+    @SidedProxy(
+        clientSide = "com.LazyFlesh.varioushorizons.ClientProxy",
+        serverSide = "com.LazyFlesh.varioushorizons.CommonProxy")
     public static CommonProxy proxy;
 
     static {
         try {
-            ConfigurationManager.registerConfig(Config.class);
+            ConfigurationManager.registerConfig(GeneralConfig.class);
         } catch (ConfigException e) {
             throw new RuntimeException(e);
         }
