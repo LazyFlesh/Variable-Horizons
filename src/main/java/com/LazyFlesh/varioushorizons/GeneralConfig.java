@@ -10,4 +10,8 @@ public class GeneralConfig {
     @Config.DefaultBoolean(false)
     public static boolean disableVariants;
 
+    @Config.Comment("List of all active Variants' names. You can use in-game commands to change it, as well as see all options.")
+    @Config.DefaultStringList({ "Normal" })
+    public static String[] activeVariants;
+
 }

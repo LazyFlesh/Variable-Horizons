@@ -21,6 +21,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 public class VariousHorizons {
 
     public static final String MODID = "varioushorizons";
+    public static final String VERSION = Tags.VERSION;
     public static final Logger LOG = LogManager.getLogger(MODID);
 
     @SidedProxy(
