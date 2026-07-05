@@ -62,15 +62,29 @@ public class VariantCommands extends CommandBase {
                     if (VariantNames.contains(arg1)) {
                         // if being set true/false
                         if (args.length >= 3) {
-                            if (args[2].equalsIgnoreCase("false") || args[2].equalsIgnoreCase("true"))
-                                VariantLoader.toggleVariant(
-                                    sender,
-                                    VariantNames.getVariantFromID(args[1]),
-                                    Boolean.getBoolean(args[2]));
+                            switch (args[2].trim()
+                                .toLowerCase()) {
+                                case "activate", "true", "1" -> {
+                                    VariantLoader.toggleVariant(sender, VariantNames.getVariantFromID(args[1]), true);
+                                }
+                                case "deactivate", "false", "0" -> {
+                                    VariantLoader.toggleVariant(sender, VariantNames.getVariantFromID(args[1]), false);
+                                }
+                                default -> {
+                                    sender.addChatMessage(
+                                        new ChatComponentText(
+                                            args[1] + " is "
+                                                + (VariantNames.activeContains(args[1]) ? "active" : "inactive")));
+                                    sender.addChatMessage(
+                                        new ChatComponentText(
+                                            "Use activate/deactivate, true/false, or 1/0 to toggle variant state."));
+                                }
+                            }
                         } else {
                             // this is when its just /variants set <variant name>
                             sender.addChatMessage(
-                                new ChatComponentText(args[1] + " is " + VariantNames.activeContains(args[1])));
+                                new ChatComponentText(
+                                    args[1] + " is " + (VariantNames.activeContains(args[1]) ? "active" : "inactive")));
                         }
                     }
                 }
@@ -102,7 +116,7 @@ public class VariantCommands extends CommandBase {
         } else if (args.length == 3) {
             String subCommand = args[0].toLowerCase();
             if ("set".equals(subCommand)) {
-                Stream.of("true", "false")
+                Stream.of("activate", "deactivate")
                     .filter(s -> s.startsWith(currentArg))
                     .forEach(completions::add);
             }
