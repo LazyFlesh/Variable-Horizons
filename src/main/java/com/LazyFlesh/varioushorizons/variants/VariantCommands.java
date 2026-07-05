@@ -62,11 +62,11 @@ public class VariantCommands extends CommandBase {
                     if (VariantNames.contains(arg1)) {
                         // if being set true/false
                         if (args.length >= 3) {
-                            if (args[3].equalsIgnoreCase("false") || args[3].equalsIgnoreCase("true"))
+                            if (args[2].equalsIgnoreCase("false") || args[2].equalsIgnoreCase("true"))
                                 VariantLoader.toggleVariant(
                                     sender,
-                                    VariantNames.getVariantFromID(args[2]),
-                                    Boolean.getBoolean(args[3]));
+                                    VariantNames.getVariantFromID(args[1]),
+                                    Boolean.getBoolean(args[2]));
                         } else {
                             // this is when its just /variants set <variant name>
                             sender.addChatMessage(
