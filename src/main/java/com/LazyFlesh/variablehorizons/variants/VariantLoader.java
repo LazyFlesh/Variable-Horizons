@@ -1,4 +1,4 @@
-package com.LazyFlesh.varioushorizons.variants;
+package com.LazyFlesh.variablehorizons.variants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 
-import com.LazyFlesh.varioushorizons.GeneralConfig;
-import com.LazyFlesh.varioushorizons.VariousHorizons;
-import com.LazyFlesh.varioushorizons.variants.runtime.IRuntimeVariant;
+import com.LazyFlesh.variablehorizons.GeneralConfig;
+import com.LazyFlesh.variablehorizons.VariableHorizons;
+import com.LazyFlesh.variablehorizons.variants.runtime.IRuntimeVariant;
 import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 
 public abstract class VariantLoader {
@@ -20,8 +20,8 @@ public abstract class VariantLoader {
             if (variant.incompatible != null) {
                 for (VariantNames incompat : variant.incompatible) {
                     if (active.contains(incompat)) {
-                        VariousHorizons.LOG.warn("A variant incompatible with another active variant was detected.");
-                        VariousHorizons.LOG.warn("Turning off incompatible variant: {}", incompat.id);
+                        VariableHorizons.LOG.warn("A variant incompatible with another active variant was detected.");
+                        VariableHorizons.LOG.warn("Turning off incompatible variant: {}", incompat.id);
                         active.remove(incompat);
                         // don't break, so all incompatible variants are removed.
                     }

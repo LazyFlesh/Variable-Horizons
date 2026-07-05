@@ -1,4 +1,4 @@
-package com.LazyFlesh.varioushorizons;
+package com.LazyFlesh.variablehorizons;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,19 +14,19 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
 @Mod(
-    modid = VariousHorizons.MODID,
+    modid = VariableHorizons.MODID,
     version = Tags.VERSION,
     name = "Various Horizons",
     acceptedMinecraftVersions = "[1.7.10]")
-public class VariousHorizons {
+public class VariableHorizons {
 
-    public static final String MODID = "varioushorizons";
+    public static final String MODID = "variablehorizons";
     public static final String VERSION = Tags.VERSION;
     public static final Logger LOG = LogManager.getLogger(MODID);
 
     @SidedProxy(
-        clientSide = "com.LazyFlesh.varioushorizons.ClientProxy",
-        serverSide = "com.LazyFlesh.varioushorizons.CommonProxy")
+        clientSide = "com.LazyFlesh.variablehorizons.ClientProxy",
+        serverSide = "com.LazyFlesh.variablehorizons.CommonProxy")
     public static CommonProxy proxy;
 
     static {

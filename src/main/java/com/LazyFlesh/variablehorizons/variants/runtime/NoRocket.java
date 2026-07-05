@@ -1,7 +1,7 @@
-package com.LazyFlesh.varioushorizons.variants.runtime;
+package com.LazyFlesh.variablehorizons.variants.runtime;
 
-import com.LazyFlesh.varioushorizons.variants.VariantLoader;
-import com.LazyFlesh.varioushorizons.variants.VariantNames;
+import com.LazyFlesh.variablehorizons.variants.VariantLoader;
+import com.LazyFlesh.variablehorizons.variants.VariantNames;
 
 import gregtech.api.enums.Mods;
 import gregtech.api.util.GTModHandler;

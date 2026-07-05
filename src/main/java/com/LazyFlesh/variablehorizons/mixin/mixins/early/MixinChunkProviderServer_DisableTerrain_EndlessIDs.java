@@ -1,4 +1,4 @@
-package com.LazyFlesh.varioushorizons.mixin.mixins.early;
+package com.LazyFlesh.variablehorizons.mixin.mixins.early;
 
 import java.util.Arrays;
 
@@ -12,35 +12,34 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-@Mixin(ChunkProviderServer.class)
-public class MixinChunkProviderServer_DisableTerrain {
+import com.falsepattern.endlessids.mixin.helpers.ChunkBiomeHook;
+
+@Mixin({ ChunkProviderServer.class })
+public class MixinChunkProviderServer_DisableTerrain_EndlessIDs {
 
     @Unique
     private static final int CHUNK_WIDTH = 16;
-
     @Unique
     private static final int CHUNK_LENGTH = 16;
-
     @Unique
     private static final int CHUNK_HEIGHT = 256;
-
     @Unique
-    private static final int BLOCKS_TOTAL = CHUNK_LENGTH * CHUNK_WIDTH * CHUNK_HEIGHT;
+    private static final int BLOCKS_TOTAL = 65536;
+
+    public MixinChunkProviderServer_DisableTerrain_EndlessIDs() {}
 
     @ModifyVariable(
         at = @At(
             value = "INVOKE_ASSIGN",
             target = "Lnet/minecraft/world/chunk/IChunkProvider;provideChunk(II)Lnet/minecraft/world/chunk/Chunk;"),
-        method = "originalLoadChunk")
-    public Chunk hodgepodge$disableTerrain(Chunk chunk) {
-        final Block[] ids = new Block[BLOCKS_TOTAL];
-        final byte[] metadata = new byte[BLOCKS_TOTAL];
+        method = { "originalLoadChunk" })
+    public Chunk hodgepodge$disableTerrainEndlessIds(Chunk chunk) {
+        Block[] ids = new Block[65536];
+        byte[] metadata = new byte[65536];
         Arrays.fill(ids, Blocks.air);
-
-        byte[] chunkData = chunk.getBiomeArray();
+        short[] biomeArray = ((ChunkBiomeHook) chunk).getBiomeShortArray();
         Chunk newChunk = new Chunk(chunk.worldObj, ids, metadata, chunk.xPosition, chunk.zPosition);
-        newChunk.setBiomeArray(chunkData);
-
+        ((ChunkBiomeHook) newChunk).setBiomeShortArray(biomeArray);
         return newChunk;
     }
 }

@@ -1,6 +1,6 @@
-package com.LazyFlesh.varioushorizons;
+package com.LazyFlesh.variablehorizons;
 
-import com.LazyFlesh.varioushorizons.variants.VariantCommands;
+import com.LazyFlesh.variablehorizons.variants.VariantCommands;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -12,7 +12,7 @@ public class CommonProxy {
     // preInit "Run before anything else. Read your config, create blocks, items, etc, and register them with the
     // GameRegistry." (Remove if not needed)
     public void preInit(FMLPreInitializationEvent event) {
-        VariousHorizons.LOG.info("Various Horizons, version " + Tags.VERSION);
+        VariableHorizons.LOG.info("Various Horizons, version " + Tags.VERSION);
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)

@@ -1,4 +1,4 @@
-package com.LazyFlesh.varioushorizons.mixin;
+package com.LazyFlesh.variablehorizons.mixin;
 
 import java.util.List;
 import java.util.Map;
@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.LazyFlesh.varioushorizons.variants.VariantNames;
+import com.LazyFlesh.variablehorizons.variants.VariantNames;
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
 import com.gtnewhorizon.gtnhmixins.LateMixin;
@@ -94,7 +94,7 @@ public enum Mixins implements IMixins {
 
         @Override
         public String getMixinConfig() {
-            return "mixins.varioushorizons.late.json";
+            return "mixins.variablehorizons.late.json";
         }
 
         @Override
@@ -107,7 +107,7 @@ public enum Mixins implements IMixins {
 
         @Override
         public String getMixinConfig() {
-            return "mixins.varioushorizons.early.json";
+            return "mixins.variablehorizons.early.json";
         }
 
         @Override

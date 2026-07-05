@@ -1,8 +1,8 @@
 {
   "required": true,
   "minVersion": "0.8.5-GTNH",
-  "package": "com.LazyFlesh.varioushorizons.mixin.mixins.early",
-  "refmap": "mixins.varioushorizons.refmap.json",
+  "package": "com.LazyFlesh.variablehorizons.mixin.mixins.late",
+  "refmap": "mixins.variablehorizons.refmap.json",
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8"
 }

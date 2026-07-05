@@ -1,11 +1,11 @@
-package com.LazyFlesh.varioushorizons.variants;
+package com.LazyFlesh.variablehorizons.variants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.LazyFlesh.varioushorizons.GeneralConfig;
-import com.LazyFlesh.varioushorizons.variants.runtime.NoRocket;
+import com.LazyFlesh.variablehorizons.GeneralConfig;
+import com.LazyFlesh.variablehorizons.variants.runtime.NoRocket;
 
 public enum VariantNames {
 

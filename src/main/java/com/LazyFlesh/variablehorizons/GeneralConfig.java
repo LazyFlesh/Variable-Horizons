@@ -1,9 +1,9 @@
-package com.LazyFlesh.varioushorizons;
+package com.LazyFlesh.variablehorizons;
 
 import com.gtnewhorizon.gtnhlib.config.Config;
 
 @Config.RequiresMcRestart
-@Config(modid = VariousHorizons.MODID)
+@Config(modid = VariableHorizons.MODID)
 public class GeneralConfig {
 
     @Config.Comment("Disables all changes made by Various Horizons.")

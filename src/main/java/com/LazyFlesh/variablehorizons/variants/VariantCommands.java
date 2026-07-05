@@ -1,4 +1,4 @@
-package com.LazyFlesh.varioushorizons.variants;
+package com.LazyFlesh.variablehorizons.variants;
 
 import java.util.ArrayList;
 import java.util.Collections;

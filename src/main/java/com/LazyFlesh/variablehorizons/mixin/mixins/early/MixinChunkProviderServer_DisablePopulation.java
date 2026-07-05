@@ -1,4 +1,4 @@
-package com.LazyFlesh.varioushorizons.mixin.mixins.early;
+package com.LazyFlesh.variablehorizons.mixin.mixins.early;
 
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderServer;
