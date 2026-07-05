@@ -14,7 +14,7 @@ public enum VariantNames {
     // i.e. turns off quests; makes it hardcore; halves all processing time, etc.
     NO_RECIPE_ADDITIONS("NO_RECIPE_ADDITIONS"), // Specifies additions, since no rocket removes
                                                 // nasa bench recipe.
-    VOID_WORLD("VOID_WORLD"), // no land anywhere
+    VOID_WORLD("VOID_WORLD" /* no class, just mixin */), // no land anywhere
     VOID_ISLAND("VOID_ISLAND"), // OW is a sky island. Think Botania Garden of Glass or normal Skyblock
     NO_ROCKET("NO_ROCKET", new NoRocket()), // disable nasa bench
     NO_QUEST_REWARDS("NO_QUEST_REWARDS"),
@@ -118,17 +118,19 @@ public enum VariantNames {
     }
 
     // does the id match a variant's id
-    public static boolean contains(String id) {
-        for (VariantNames name : VariantNames.values()) {
-            if (id.equalsIgnoreCase(name.id)) return true;
+    public static boolean contains(String... id) {
+        List<String> active = getVariantNames();
+        for (String s : id) {
+            if (active.contains(s.toUpperCase())) return true;
         }
         return false;
     }
 
     // does the id match a variant's id
-    public static boolean activeContains(String id) {
-        for (String name : GeneralConfig.activeVariants) {
-            if (id.equalsIgnoreCase(name)) return true;
+    public static boolean activeContains(String... id) {
+        List<String> active = Arrays.asList(GeneralConfig.activeVariants);
+        for (String s : id) {
+            if (active.contains(s.toUpperCase())) return true;
         }
         return false;
     }
