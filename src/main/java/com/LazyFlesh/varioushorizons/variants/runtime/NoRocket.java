@@ -1,4 +1,4 @@
-package com.LazyFlesh.varioushorizons.variants.unInvasive;
+package com.LazyFlesh.varioushorizons.variants.runtime;
 
 import com.LazyFlesh.varioushorizons.variants.VariantLoader;
 import com.LazyFlesh.varioushorizons.variants.VariantNames;
@@ -6,7 +6,7 @@ import com.LazyFlesh.varioushorizons.variants.VariantNames;
 import gregtech.api.enums.Mods;
 import gregtech.api.util.GTModHandler;
 
-public class NoRocket extends VariantLoader {
+public class NoRocket extends VariantLoader implements IRuntimeVariant {
 
     VariantNames variant = VariantNames.NO_ROCKET;
 

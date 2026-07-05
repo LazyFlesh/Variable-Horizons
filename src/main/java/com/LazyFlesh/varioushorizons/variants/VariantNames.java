@@ -5,60 +5,55 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.LazyFlesh.varioushorizons.GeneralConfig;
-import com.LazyFlesh.varioushorizons.variants.unInvasive.NoRocket;
+import com.LazyFlesh.varioushorizons.variants.runtime.NoRocket;
 
 public enum VariantNames {
 
     // sub-variants/modifiers
     // modifies one thing, can be stacked with each other (barring incompats)
     // i.e. turns off quests; makes it hardcore; halves all processing time, etc.
-    NO_RECIPE_ADDITIONS("noRecipeAdditions", "No Recipe Additions"), // Specifies additions, since no rocket removes
-                                                                     // nasa bench recipe.
-    VOID_WORLD("voidWorld", "Void World"), // no land anywhere
-    VOID_ISLAND("voidIsland", "Void Island"), // OW is a sky island. Think Botania Garden of Glass or normal Skyblock
-    NO_ROCKET("rocketless", "No Rocket", new NoRocket()), // disable nasa bench
-    NO_QUEST_REWARDS("questless", "No Quest Rewards"),
-    HALF_TIME("halfTime", "Halve Recipe Time"),
-    QUARTER_TIME("quarterTime", "Quarter Recipe Time"),
-    DOUBLE_TIME("doubleTime", "Double Recipe Time"),
-    HALF_EFFICIENCY("halfEfficiency", "Halve Powergen Efficiency"),
-    INFINITE_POWER("infPower", "Infinite Power"),
-    NETHER_START("netherStart", "Nether Start"), // sets Nether as the spawn dimension instead of OW
+    NO_RECIPE_ADDITIONS("NO_RECIPE_ADDITIONS"), // Specifies additions, since no rocket removes
+                                                // nasa bench recipe.
+    VOID_WORLD("VOID_WORLD"), // no land anywhere
+    VOID_ISLAND("VOID_ISLAND"), // OW is a sky island. Think Botania Garden of Glass or normal Skyblock
+    NO_ROCKET("NO_ROCKET", new NoRocket()), // disable nasa bench
+    NO_QUEST_REWARDS("NO_QUEST_REWARDS"),
+    HALF_TIME("HALF_TIME"),
+    QUARTER_TIME("QUARTER_TIME"),
+    DOUBLE_TIME("DOUBLE_TIME"),
+    HALF_EFFICIENCY("HALF_EFFICIENCY"),
+    INFINITE_POWER("INFINITE_POWER"),
+    NETHER_START("NETHER_START"), // sets Nether as the spawn dimension instead of OW
 
     // full variants
     // i.e. defines both world type and recipes
     // unlikely to be compatible with each other
-    NORMAL("normal", "Normal", true, "none"), // no changes
-    GARDEN_OF_GRIND("gog", "Garden of Grind", true, "composedOf", VOID_WORLD, NO_RECIPE_ADDITIONS, NO_ROCKET),
-    NETHER_ONLY("netherOnly", "Nether Only", true, "composedOf", NETHER_START, NO_ROCKET, "incompatible",
-        NO_RECIPE_ADDITIONS),
-    SKYBLOCK("skyblock", "Skyblock", true, "composedOf", VOID_ISLAND, "incompatible", NO_RECIPE_ADDITIONS),
+    NORMAL("NORMAL", true, "none"), // no changes
+    GARDEN_OF_GRIND("GARDEN_OF_GRIND", true, "composedOf", VOID_WORLD, NO_RECIPE_ADDITIONS, NO_ROCKET),
+    NETHER_ONLY("NETHER_ONLY", true, "composedOf", NETHER_START, NO_ROCKET, "incompatible", NO_RECIPE_ADDITIONS),
+    SKYBLOCK("SKYBLOCK", true, "composedOf", VOID_ISLAND, "incompatible", NO_RECIPE_ADDITIONS),
 
     ;
 
-    public final String id; //
-    public final String name; // human-readable name
+    public final String id;
     public final boolean compositionVariant; // is it made of several modifications
     public List<VariantNames> incompatible;
     public List<VariantNames> composedOf;
     public VariantLoader loaderClass;
 
-    VariantNames(String id, String name) {
+    VariantNames(String id) {
         this.id = id;
-        this.name = name;
         this.compositionVariant = false;
     }
 
-    VariantNames(String id, String name, VariantLoader loaderClass) {
+    VariantNames(String id, VariantLoader loaderClass) {
         this.loaderClass = loaderClass;
         this.id = id;
-        this.name = name;
         this.compositionVariant = false;
     }
 
-    VariantNames(String id, String name, boolean compositionVariant, Object... relations) {
+    VariantNames(String id, boolean compositionVariant, Object... relations) {
         this.id = id;
-        this.name = name;
         this.compositionVariant = true;
 
         List<VariantNames> incompatible = new ArrayList<>();
@@ -86,8 +81,8 @@ public enum VariantNames {
         if (!composedOf.isEmpty()) this.composedOf = composedOf;
     }
 
-    VariantNames(String id, String name, VariantLoader loaderClass, Object... relations) {
-        this(id, name, true, relations);
+    VariantNames(String id, VariantLoader loaderClass, Object... relations) {
+        this(id, true, relations);
         if (loaderClass != null) {
             this.loaderClass = loaderClass;
         }
@@ -96,7 +91,7 @@ public enum VariantNames {
     public static List<String> getVariantNames() {
         List<String> names = new ArrayList<>();
         for (VariantNames name : VariantNames.values()) {
-            names.add(name.name);
+            names.add(name.id);
         }
         return names;
     }
@@ -104,7 +99,7 @@ public enum VariantNames {
     public static String getVariantNamesFormatted() {
         StringBuilder names = new StringBuilder();
         for (VariantNames name : VariantNames.values()) {
-            names.append(name.name)
+            names.append(name.id)
                 .append(", ");
         }
         return names.toString();
@@ -121,17 +116,10 @@ public enum VariantNames {
         return null;
     }
 
-    public static VariantNames getVariantFromName(String name) {
-        for (VariantNames vars : VariantNames.values()) {
-            if (name.equalsIgnoreCase(vars.name)) return vars;
-        }
-        return null;
-    }
-
     // does the id match a variant's id
     public static boolean contains(String id) {
         for (VariantNames name : VariantNames.values()) {
-            if (id.equalsIgnoreCase(name.name)) return true;
+            if (id.equalsIgnoreCase(name.id)) return true;
         }
         return false;
     }

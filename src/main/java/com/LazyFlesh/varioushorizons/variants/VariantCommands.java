@@ -61,8 +61,11 @@ public class VariantCommands extends CommandBase {
                     if (VariantNames.contains(arg1)) {
                         // if being set true/false
                         if (args.length > 3) {
-                            // set true/false with helper method (pass sender as well)
-                            sender.addChatMessage(new ChatComponentText("Requires server restart to take effect."));
+                            if (args[3].equalsIgnoreCase("false") || args[3].equalsIgnoreCase("true"))
+                                VariantLoader.toggleVariant(
+                                    sender,
+                                    VariantNames.getVariantFromID(args[2]),
+                                    Boolean.getBoolean(args[3]));
                         } else if (args.length == 3) {
                             // this is when its just /variants set <variant name>
                             sender.addChatMessage(
@@ -92,6 +95,13 @@ public class VariantCommands extends CommandBase {
                     .forEach(completions::add);
             } else if ("list".equals(subCommand)) {
                 Stream.of("all", "active")
+                    .filter(s -> s.startsWith(currentArg))
+                    .forEach(completions::add);
+            }
+        } else if (args.length == 3) {
+            String subCommand = args[0].toLowerCase();
+            if ("set".equals(subCommand)) {
+                Stream.of("true", "false")
                     .filter(s -> s.startsWith(currentArg))
                     .forEach(completions::add);
             }
