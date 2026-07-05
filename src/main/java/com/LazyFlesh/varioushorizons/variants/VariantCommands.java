@@ -1,6 +1,7 @@
 package com.LazyFlesh.varioushorizons.variants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -17,7 +18,7 @@ public class VariantCommands extends CommandBase {
 
     @Override
     public List<String> getCommandAliases() {
-        return List.of("Variants");
+        return new ArrayList<>(Collections.singleton("Variants"));
     }
 
     @Override
@@ -60,16 +61,16 @@ public class VariantCommands extends CommandBase {
                     String arg1 = args[1].toLowerCase();
                     if (VariantNames.contains(arg1)) {
                         // if being set true/false
-                        if (args.length > 3) {
+                        if (args.length >= 3) {
                             if (args[3].equalsIgnoreCase("false") || args[3].equalsIgnoreCase("true"))
                                 VariantLoader.toggleVariant(
                                     sender,
                                     VariantNames.getVariantFromID(args[2]),
                                     Boolean.getBoolean(args[3]));
-                        } else if (args.length == 3) {
+                        } else {
                             // this is when its just /variants set <variant name>
                             sender.addChatMessage(
-                                new ChatComponentText(args[2] + " is " + VariantNames.activeContains(args[2])));
+                                new ChatComponentText(args[1] + " is " + VariantNames.activeContains(args[1])));
                         }
                     }
                 }
