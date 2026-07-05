@@ -32,6 +32,7 @@ public enum VariantNames {
     GARDEN_OF_GRIND("GARDEN_OF_GRIND", true, "composedOf", VOID_WORLD, NO_RECIPE_ADDITIONS, NO_ROCKET),
     NETHER_ONLY("NETHER_ONLY", true, "composedOf", NETHER_START, NO_ROCKET, "incompatible", NO_RECIPE_ADDITIONS),
     SKYBLOCK("SKYBLOCK", true, "composedOf", VOID_ISLAND, "incompatible", NO_RECIPE_ADDITIONS),
+    // if you want Skyblock with no recipe additions, do Garden of Grind + Void Island.
 
     ;
 
