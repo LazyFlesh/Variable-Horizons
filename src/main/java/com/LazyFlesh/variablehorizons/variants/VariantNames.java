@@ -29,10 +29,15 @@ public enum VariantNames {
     // full variants
     // i.e. defines both world type and recipes
     // unlikely to be compatible with each other
-    NORMAL("NORMAL", true, "none"), // does nothing
-    GARDEN_OF_GRIND("GARDEN_OF_GRIND", new GardenOfGrind(), "composedOf", VOID_WORLD, NO_RECIPE_ADDITIONS, NO_ROCKET),
-    NETHER_ONLY("NETHER_ONLY", true, "composedOf", NETHER_START, NO_ROCKET, "incompatible", NO_RECIPE_ADDITIONS),
-    SKYBLOCK("SKYBLOCK", true, "composedOf", VOID_ISLAND, "incompatible", NO_RECIPE_ADDITIONS),
+    NORMAL("NORMAL", true, new VariantNames[] {}, new VariantNames[] {}), // does nothing
+
+    GARDEN_OF_GRIND("GARDEN_OF_GRIND", new GardenOfGrind(),
+        new VariantNames[] { VOID_WORLD, NO_RECIPE_ADDITIONS, NO_ROCKET }, new VariantNames[] {}),
+
+    NETHER_ONLY("NETHER_ONLY", true, new VariantNames[] { NETHER_START, NO_ROCKET },
+        new VariantNames[] { NO_RECIPE_ADDITIONS }),
+
+    SKYBLOCK("SKYBLOCK", true, new VariantNames[] { VOID_ISLAND }, new VariantNames[] { NO_RECIPE_ADDITIONS }),
     // only OW is void, w/ sky island
     // if you want Skyblock with no recipe additions, do Garden of Grind + Void Island.
 
@@ -56,37 +61,16 @@ public enum VariantNames {
         this.compositionVariant = false;
     }
 
-    VariantNames(String id, boolean compositionVariant, Object... relations) {
+    VariantNames(String id, boolean compositionVariant, VariantNames[] composedOf, VariantNames[] incompatible) {
         this.id = id;
         this.compositionVariant = compositionVariant;
 
-        List<VariantNames> incompatible = new ArrayList<>();
-        List<VariantNames> composedOf = new ArrayList<>();
-
-        int writeMode = 0;
-        for (Object in : relations) {
-            if (in instanceof String s) {
-                if (s.equalsIgnoreCase("incompatible")) {
-                    writeMode = 1;
-                } else if (s.equalsIgnoreCase("composedOf")) {
-                    writeMode = 2;
-                } else if (s.equalsIgnoreCase("none")) break;
-            } else if (in instanceof VariantNames v) {
-                if (writeMode == 1) {
-                    incompatible.add(v);
-                } else if (writeMode == 2) {
-                    composedOf.add(v);
-                }
-            }
-        }
-
-        if (!incompatible.isEmpty()) this.incompatible = incompatible;
-
-        if (!composedOf.isEmpty()) this.composedOf = composedOf;
+        if (incompatible.length != 0) this.incompatible = Arrays.asList(incompatible);
+        if (composedOf.length != 0) this.composedOf = Arrays.asList(composedOf);
     }
 
-    VariantNames(String id, VariantLoader loaderClass, Object... relations) {
-        this(id, true, relations);
+    VariantNames(String id, VariantLoader loaderClass, VariantNames[] composedOf, VariantNames[] incompatible) {
+        this(id, true, composedOf, incompatible);
         if (loaderClass != null) {
             this.loaderClass = loaderClass;
         }

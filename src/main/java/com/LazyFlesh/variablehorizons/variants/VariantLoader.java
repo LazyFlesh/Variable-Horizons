@@ -30,8 +30,18 @@ public abstract class VariantLoader {
                 }
             }
 
+            VariableHorizons.LOG.info("Loading {}", variant.id);
             if (variant.loaderClass instanceof VariantLoader && !variant.hasLoaded) {
                 variant.loaderClass.loadVariant();
+                // if composition, add composites to list and load them
+                if (variant.compositionVariant) {
+                    for (VariantNames name : variant.composedOf) {
+                        active.add(name.id);
+                        if (name.loaderClass instanceof VariantLoader && !name.hasLoaded) {
+                            name.loaderClass.loadVariant();
+                        }
+                    }
+                }
             } else if (variant.loaderClass == null) {
                 // nothing to load, so just mark it as loaded.
                 variant.hasLoaded = true;

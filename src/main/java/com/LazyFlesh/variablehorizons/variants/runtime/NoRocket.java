@@ -13,6 +13,7 @@ public class NoRocket extends VariantLoader implements IRuntimeVariant {
     @Override
     public void loadVariant(VariantNames... activeVariants) {
         VariantNames.NO_ROCKET.hasLoaded = true;
-        GTModHandler.removeRecipeByOutput(GTModHandler.getModItem(Mods.GalacticraftCore.ID, "rocketWorkbench"));
+        GTModHandler
+            .removeRecipeByOutput(GTModHandler.getModItem(Mods.GalacticraftCore.ID, "rocketWorkbench", 1, 32767));
     }
 }
