@@ -1,7 +1,6 @@
 package com.LazyFlesh.variablehorizons.mixin;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nonnull;
@@ -11,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import com.LazyFlesh.variablehorizons.Config.GeneralConfig;
 import com.LazyFlesh.variablehorizons.Config.GogConfig;
 import com.LazyFlesh.variablehorizons.variants.VariantNames;
-import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
 import com.gtnewhorizon.gtnhmixins.LateMixin;
 import com.gtnewhorizon.gtnhmixins.builders.IBaseTransformer;
@@ -21,7 +19,6 @@ import com.gtnewhorizon.gtnhmixins.builders.MixinBuilder;
 import com.gtnewhorizon.gtnhmixins.builders.TargetModBuilder;
 
 import cpw.mods.fml.common.versioning.ComparableVersion;
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 public enum Mixins implements IMixins {
 
@@ -106,43 +103,4 @@ public enum Mixins implements IMixins {
             return IMixins.getLateMixins(Mixins.class, loadedMods);
         }
     }
-
-    public static class EarlyMixinLoader implements IEarlyMixinLoader, IFMLLoadingPlugin {
-
-        @Override
-        public String getMixinConfig() {
-            return "mixins.variablehorizons.early.json";
-        }
-
-        @Override
-        public @NotNull List<String> getMixins(Set<String> loadedMods) {
-            return IMixins.getEarlyMixins(Mixins.class, loadedMods);
-        }
-
-        @Override
-        public String[] getASMTransformerClass() {
-            return null;
-        }
-
-        @Override
-        public String getModContainerClass() {
-            return null;
-        }
-
-        @Override
-        public String getSetupClass() {
-            return null;
-        }
-
-        @Override
-        public void injectData(Map<String, Object> data) {
-
-        }
-
-        @Override
-        public String getAccessTransformerClass() {
-            return null;
-        }
-    }
-
 }
