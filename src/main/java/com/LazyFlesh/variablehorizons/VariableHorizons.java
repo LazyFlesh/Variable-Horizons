@@ -18,7 +18,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 @Mod(
     modid = VariableHorizons.MODID,
     version = Tags.VERSION,
-    name = "Various Horizons",
+    name = "Variable Horizons",
     acceptedMinecraftVersions = "[1.7.10]")
 public class VariableHorizons {
 

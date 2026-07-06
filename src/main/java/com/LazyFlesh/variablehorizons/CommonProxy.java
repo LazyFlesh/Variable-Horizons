@@ -13,7 +13,7 @@ public class CommonProxy {
     // preInit "Run before anything else. Read your config, create blocks, items, etc, and register them with the
     // GameRegistry." (Remove if not needed)
     public void preInit(FMLPreInitializationEvent event) {
-        VariableHorizons.LOG.info("Various Horizons, version " + Tags.VERSION);
+        VariableHorizons.LOG.info("Variable Horizons, version " + Tags.VERSION);
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)
