@@ -1,4 +1,4 @@
-package com.LazyFlesh.varioushorizons;
+package com.LazyFlesh.variablehorizons;
 
 public class ClientProxy extends CommonProxy {
 

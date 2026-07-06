@@ -1,4 +1,4 @@
-package com.LazyFlesh.varioushorizons.variants;
+package com.LazyFlesh.variablehorizons.variants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,15 +62,34 @@ public class VariantCommands extends CommandBase {
                     if (VariantNames.contains(arg1)) {
                         // if being set true/false
                         if (args.length >= 3) {
-                            if (args[3].equalsIgnoreCase("false") || args[3].equalsIgnoreCase("true"))
-                                VariantLoader.toggleVariant(
-                                    sender,
-                                    VariantNames.getVariantFromID(args[2]),
-                                    Boolean.getBoolean(args[3]));
+                            switch (args[2].trim()
+                                .toLowerCase()) {
+                                case "active", "true", "1" -> {
+                                    sender.addChatMessage(
+                                        new ChatComponentText(
+                                            VariantLoader.toggleVariant(VariantNames.getVariantFromID(args[1]), true)));
+                                }
+                                case "inactive", "false", "0" -> {
+                                    sender.addChatMessage(
+                                        new ChatComponentText(
+                                            VariantLoader
+                                                .toggleVariant(VariantNames.getVariantFromID(args[1]), false)));
+                                }
+                                default -> {
+                                    sender.addChatMessage(
+                                        new ChatComponentText(
+                                            args[1] + " is "
+                                                + (VariantNames.activeContains(args[1]) ? "active" : "inactive")));
+                                    sender.addChatMessage(
+                                        new ChatComponentText(
+                                            "Use active/inactive, true/false, or 1/0 to toggle variant state."));
+                                }
+                            }
                         } else {
                             // this is when its just /variants set <variant name>
                             sender.addChatMessage(
-                                new ChatComponentText(args[1] + " is " + VariantNames.activeContains(args[1])));
+                                new ChatComponentText(
+                                    args[1] + " is " + (VariantNames.activeContains(args[1]) ? "active" : "inactive")));
                         }
                     }
                 }
@@ -102,7 +121,7 @@ public class VariantCommands extends CommandBase {
         } else if (args.length == 3) {
             String subCommand = args[0].toLowerCase();
             if ("set".equals(subCommand)) {
-                Stream.of("true", "false")
+                Stream.of("active", "inactive")
                     .filter(s -> s.startsWith(currentArg))
                     .forEach(completions::add);
             }

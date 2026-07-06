@@ -1,37 +1,42 @@
-package com.LazyFlesh.varioushorizons;
+package com.LazyFlesh.variablehorizons;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.LazyFlesh.variablehorizons.Config.GeneralConfig;
+import com.LazyFlesh.variablehorizons.Config.GogConfig;
 import com.gtnewhorizon.gtnhlib.config.ConfigException;
 import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 
 @Mod(
-    modid = VariousHorizons.MODID,
+    modid = VariableHorizons.MODID,
     version = Tags.VERSION,
-    name = "Various Horizons",
-    acceptedMinecraftVersions = "[1.7.10]")
-public class VariousHorizons {
+    name = "Variable Horizons",
+    acceptedMinecraftVersions = "[1.7.10]",
+    dependencies = "after:dreamcraft")
+public class VariableHorizons {
 
-    public static final String MODID = "varioushorizons";
+    public static final String MODID = "variablehorizons";
     public static final String VERSION = Tags.VERSION;
     public static final Logger LOG = LogManager.getLogger(MODID);
 
     @SidedProxy(
-        clientSide = "com.LazyFlesh.varioushorizons.ClientProxy",
-        serverSide = "com.LazyFlesh.varioushorizons.CommonProxy")
+        clientSide = "com.LazyFlesh.variablehorizons.ClientProxy",
+        serverSide = "com.LazyFlesh.variablehorizons.CommonProxy")
     public static CommonProxy proxy;
 
     static {
         try {
             ConfigurationManager.registerConfig(GeneralConfig.class);
+            ConfigurationManager.registerConfig(GogConfig.class);
         } catch (ConfigException e) {
             throw new RuntimeException(e);
         }
@@ -54,6 +59,12 @@ public class VariousHorizons {
     // postInit "Handle interaction with other mods, complete your setup based on this." (Remove if not needed)
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
+    }
+
+    @Mod.EventHandler
+    public void completeLoad(FMLLoadCompleteEvent event) {
+        // damn NHCoremod...
+        proxy.completeLoad(event);
     }
 
     @Mod.EventHandler
