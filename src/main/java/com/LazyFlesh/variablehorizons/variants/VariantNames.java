@@ -29,6 +29,7 @@ public enum VariantNames {
     // full variants
     // i.e. defines both world type and recipes
     // unlikely to be compatible with each other
+    // I swear to god DO NOT NEST COMPOSITES
     NORMAL("NORMAL", true, new VariantNames[] {}, new VariantNames[] {}), // does nothing
 
     GARDEN_OF_GRIND("GARDEN_OF_GRIND", new GardenOfGrind(),

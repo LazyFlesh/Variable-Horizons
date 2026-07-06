@@ -36,9 +36,11 @@ public abstract class VariantLoader {
                 // if composition, add composites to list and load them
                 if (variant.compositionVariant) {
                     for (VariantNames name : variant.composedOf) {
-                        active.add(name.id);
-                        if (name.loaderClass instanceof VariantLoader && !name.hasLoaded) {
-                            name.loaderClass.loadVariant();
+                        // make sure it hasn't been loaded already, or it might make duplicate recipes/list elements
+                        if (!name.hasLoaded) {
+                            active.add(name.id);
+                            name.hasLoaded = true;
+                            if (name.loaderClass instanceof VariantLoader) name.loaderClass.loadVariant();
                         }
                     }
                 }
