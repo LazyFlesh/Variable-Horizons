@@ -3,9 +3,6 @@ package com.LazyFlesh.variablehorizons.variants.runtime;
 import com.LazyFlesh.variablehorizons.variants.VariantLoader;
 import com.LazyFlesh.variablehorizons.variants.VariantNames;
 
-import gregtech.api.enums.Mods;
-import gregtech.api.util.GTModHandler;
-
 public class NoRocket extends VariantLoader implements IRuntimeVariant {
 
     public NoRocket() {}
@@ -13,7 +10,7 @@ public class NoRocket extends VariantLoader implements IRuntimeVariant {
     @Override
     public void loadVariant(VariantNames... activeVariants) {
         VariantNames.NO_ROCKET.hasLoaded = true;
-        GTModHandler
-            .removeRecipeByOutput(GTModHandler.getModItem(Mods.GalacticraftCore.ID, "rocketWorkbench", 1, 32767));
+        // its not working. GOnna have to figure something out later.
+        // GTModHandler.removeRecipeByOutput(new ItemStack(GCBlocks.nasaWorkbench));
     }
 }
