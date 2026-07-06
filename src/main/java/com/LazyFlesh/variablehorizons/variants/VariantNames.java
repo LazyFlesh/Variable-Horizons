@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.LazyFlesh.variablehorizons.GeneralConfig;
+import com.LazyFlesh.variablehorizons.Config.GeneralConfig;
+import com.LazyFlesh.variablehorizons.variants.invasive.GardenOfGrind;
 import com.LazyFlesh.variablehorizons.variants.runtime.NoRocket;
 
 public enum VariantNames {
@@ -28,10 +29,11 @@ public enum VariantNames {
     // full variants
     // i.e. defines both world type and recipes
     // unlikely to be compatible with each other
-    NORMAL("NORMAL", true, "none"), // no changes
-    GARDEN_OF_GRIND("GARDEN_OF_GRIND", true, "composedOf", VOID_WORLD, NO_RECIPE_ADDITIONS, NO_ROCKET),
+    NORMAL("NORMAL", true, "none"), // does nothing
+    GARDEN_OF_GRIND("GARDEN_OF_GRIND", new GardenOfGrind(), "composedOf", VOID_WORLD, NO_RECIPE_ADDITIONS, NO_ROCKET),
     NETHER_ONLY("NETHER_ONLY", true, "composedOf", NETHER_START, NO_ROCKET, "incompatible", NO_RECIPE_ADDITIONS),
     SKYBLOCK("SKYBLOCK", true, "composedOf", VOID_ISLAND, "incompatible", NO_RECIPE_ADDITIONS),
+    // only OW is void, w/ sky island
     // if you want Skyblock with no recipe additions, do Garden of Grind + Void Island.
 
     ;
@@ -41,6 +43,7 @@ public enum VariantNames {
     public List<VariantNames> incompatible;
     public List<VariantNames> composedOf;
     public VariantLoader loaderClass;
+    public boolean hasLoaded = false;
 
     VariantNames(String id) {
         this.id = id;
@@ -55,7 +58,7 @@ public enum VariantNames {
 
     VariantNames(String id, boolean compositionVariant, Object... relations) {
         this.id = id;
-        this.compositionVariant = true;
+        this.compositionVariant = compositionVariant;
 
         List<VariantNames> incompatible = new ArrayList<>();
         List<VariantNames> composedOf = new ArrayList<>();

@@ -1,12 +1,17 @@
-package com.LazyFlesh.variablehorizons;
+package com.LazyFlesh.variablehorizons.Config;
 
+import com.LazyFlesh.variablehorizons.VariableHorizons;
 import com.gtnewhorizon.gtnhlib.config.Config;
 
 @Config.RequiresMcRestart
-@Config(modid = VariableHorizons.MODID)
+@Config(
+    modid = VariableHorizons.MODID,
+    configSubDirectory = "VariableHorizons",
+    filename = "GeneralConfig",
+    category = "General")
 public class GeneralConfig {
 
-    @Config.Comment("Disables all changes made by Various Horizons.")
+    @Config.Comment("Disables all changes made by Variable Horizons.")
     @Config.DefaultBoolean(false)
     public static boolean disableVariants;
 

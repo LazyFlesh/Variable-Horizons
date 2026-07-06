@@ -8,7 +8,8 @@ import javax.annotation.Nonnull;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.LazyFlesh.variablehorizons.GeneralConfig;
+import com.LazyFlesh.variablehorizons.Config.GeneralConfig;
+import com.LazyFlesh.variablehorizons.Config.GogConfig;
 import com.LazyFlesh.variablehorizons.variants.VariantNames;
 import com.gtnewhorizon.gtnhmixins.IEarlyMixinLoader;
 import com.gtnewhorizon.gtnhmixins.ILateMixinLoader;
@@ -40,7 +41,9 @@ public enum Mixins implements IMixins {
             .setPhase(IBaseTransformer.Phase.EARLY)),
     DISABLE_MODDED_CHUNK_POPULATION(new MixinBuilder("Disable all other mod chunk population (e.g. Natura clouds")
         .addCommonMixins("MixinChunkProviderServer_DisableModGeneration")
-        .setApplyIf(() -> VariantNames.activeContains(VariantNames.VOID_WORLD.id) && !GeneralConfig.disableVariants)
+        .setApplyIf(
+            () -> VariantNames.activeContains(VariantNames.VOID_WORLD.id) && !GogConfig.dragonTime
+                && !GeneralConfig.disableVariants)
         .setPhase(IBaseTransformer.Phase.EARLY));
 
     private final MixinBuilder builder;

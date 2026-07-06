@@ -1,37 +1,50 @@
 package com.LazyFlesh.variablehorizons.variants;
 
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
 
-import com.LazyFlesh.variablehorizons.GeneralConfig;
+import com.LazyFlesh.variablehorizons.Config.GeneralConfig;
 import com.LazyFlesh.variablehorizons.VariableHorizons;
 import com.LazyFlesh.variablehorizons.variants.runtime.IRuntimeVariant;
 import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 
 public abstract class VariantLoader {
 
-    public void loadVariant(VariantNames... activeVariants) {
-        List<VariantNames> active = Arrays.asList(activeVariants);
+    public static void loadActiveVariants() {
+        List<String> active = VariantNames.getActiveVariantNames();
 
-        for (VariantNames variant : activeVariants) {
+        for (String var : active) {
+            VariantNames variant = VariantNames.getVariantFromID(var);
+            if (variant == null) {
+                VariableHorizons.LOG.warn("Turning off undefined variant: {}", var);
+                active.remove(var);
+                continue;
+            }
             if (variant.incompatible != null) {
-                for (VariantNames incompat : variant.incompatible) {
-                    if (active.contains(incompat)) {
+                for (VariantNames incompatible : variant.incompatible) {
+                    if (active.contains(incompatible.id)) {
                         VariableHorizons.LOG.warn("A variant incompatible with another active variant was detected.");
-                        VariableHorizons.LOG.warn("Turning off incompatible variant: {}", incompat.id);
-                        active.remove(incompat);
+                        VariableHorizons.LOG.warn("Turning off incompatible variant: {}", incompatible.id);
+                        active.remove(incompatible.id);
                         // don't break, so all incompatible variants are removed.
                     }
                 }
             }
-            if (variant.loaderClass instanceof VariantLoader) {
-                variant.loaderClass.loadVariant(activeVariants);
+
+            if (variant.loaderClass instanceof VariantLoader && !variant.hasLoaded) {
+                variant.loaderClass.loadVariant();
+            } else if (variant.loaderClass == null) {
+                // nothing to load, so just mark it as loaded.
+                variant.hasLoaded = true;
             }
         }
+        GeneralConfig.activeVariants = active.toArray(new String[0]); // save removed variants
+        ConfigurationManager.save(GeneralConfig.class);
     }
+
+    public abstract void loadVariant(VariantNames... activeVariants);
 
     public static void toggleVariant(ICommandSender sender, VariantNames name, boolean state) {
         if (state) {
@@ -40,8 +53,8 @@ public abstract class VariantLoader {
                 return;
             } else {
                 if (name.incompatible != null) {
-                    for (VariantNames incompat : name.incompatible) {
-                        if (VariantNames.activeContains(incompat.id)) {
+                    for (VariantNames incompatible : name.incompatible) {
+                        if (VariantNames.activeContains(incompatible.id)) {
                             sender.addChatMessage(
                                 new ChatComponentText("Variant is incompatible with an active variant."));
                             return;
@@ -51,7 +64,11 @@ public abstract class VariantLoader {
                 // aaand now check none of the active are incompatible with *it*
                 for (String var : VariantNames.getActiveVariantNames()) {
                     VariantNames v = VariantNames.getVariantFromID(var);
-                    if (v != null && v.incompatible != null) {
+                    if (v == null) {
+                        VariableHorizons.LOG.warn("Undefined variant in active variants: {}", var);
+                        continue;
+                    }
+                    if (v.incompatible != null) {
                         if (v.incompatible.contains(name)) {
                             sender.addChatMessage(
                                 new ChatComponentText("Variant is incompatible with an active variant."));
