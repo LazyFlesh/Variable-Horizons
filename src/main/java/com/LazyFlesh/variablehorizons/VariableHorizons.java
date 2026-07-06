@@ -63,7 +63,7 @@ public class VariableHorizons {
 
     @Mod.EventHandler
     public void completeLoad(FMLLoadCompleteEvent event) {
-        // fucking NHCoremod...
+        // damn NHCoremod...
         proxy.completeLoad(event);
     }
 
