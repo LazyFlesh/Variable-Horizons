@@ -1,5 +1,6 @@
 package com.LazyFlesh.variablehorizons.variants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.LazyFlesh.variablehorizons.Config.GeneralConfig;
@@ -11,6 +12,8 @@ public abstract class VariantLoader {
 
     public static void loadActiveVariants() {
         List<String> active = VariantNames.getActiveVariantNames();
+        List<String> toRemove = new ArrayList<>();
+        List<String> toAdd = new ArrayList<>();
 
         for (String var : active) {
             VariantNames variant = VariantNames.getVariantFromID(var);
@@ -19,37 +22,43 @@ public abstract class VariantLoader {
                 active.remove(var);
                 continue;
             }
+            if (toRemove.contains(var)) {
+                continue;
+            }
             if (variant.incompatible != null) {
                 for (VariantNames incompatible : variant.incompatible) {
                     if (active.contains(incompatible.id)) {
                         VariableHorizons.LOG.warn("A variant incompatible with another active variant was detected.");
                         VariableHorizons.LOG.warn("Turning off incompatible variant: {}", incompatible.id);
-                        active.remove(incompatible.id);
+                        toRemove.add(incompatible.id);
                         // don't break, so all incompatible variants are removed.
                     }
                 }
             }
 
             VariableHorizons.LOG.info("Loading {}", variant.id);
+            if (variant.compositionVariant) {
+                for (VariantNames name : variant.composedOf) {
+                    // make sure it hasn't been loaded already, or it might make duplicate recipes/list elements
+                    if (!name.hasLoaded) {
+                        toAdd.add(name.id);
+                        name.hasLoaded = true;
+                        if (name.loaderClass instanceof VariantLoader) name.loaderClass.loadVariant();
+                    }
+                }
+            }
             if (variant.loaderClass instanceof VariantLoader && !variant.hasLoaded) {
                 variant.loaderClass.loadVariant();
                 // if composition, add composites to list and load them
-                if (variant.compositionVariant) {
-                    for (VariantNames name : variant.composedOf) {
-                        // make sure it hasn't been loaded already, or it might make duplicate recipes/list elements
-                        if (!name.hasLoaded) {
-                            active.add(name.id);
-                            name.hasLoaded = true;
-                            if (name.loaderClass instanceof VariantLoader) name.loaderClass.loadVariant();
-                        }
-                    }
-                }
             } else if (variant.loaderClass == null) {
                 // nothing to load, so just mark it as loaded.
                 variant.hasLoaded = true;
             }
         }
-        GeneralConfig.activeVariants = active.toArray(new String[0]); // save removed variants
+        // actually remove skipped variants
+        for (String s : toRemove) active.remove(s);
+        active.addAll(toAdd);
+        GeneralConfig.activeVariants = active.toArray(new String[0]);
         ConfigurationManager.save(GeneralConfig.class);
     }
 

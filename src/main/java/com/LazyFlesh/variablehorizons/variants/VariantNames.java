@@ -46,8 +46,9 @@ public enum VariantNames {
 
     public final String id;
     public final boolean compositionVariant; // is it made of several modifications
-    public List<VariantNames> incompatible;
-    public List<VariantNames> composedOf;
+    public List<VariantNames> incompatible = new ArrayList<>();
+    public List<VariantNames> composedOf = new ArrayList<>();
+    public final List<VariantNames> partOf = new ArrayList<>(); // composition variant it is part of
     public VariantLoader loaderClass;
     public boolean hasLoaded = false;
 
@@ -66,8 +67,18 @@ public enum VariantNames {
         this.id = id;
         this.compositionVariant = compositionVariant;
 
-        if (incompatible.length != 0) this.incompatible = Arrays.asList(incompatible);
-        if (composedOf.length != 0) this.composedOf = Arrays.asList(composedOf);
+        if (incompatible.length != 0) {
+            this.incompatible = Arrays.asList(incompatible);
+            for (VariantNames i : incompatible) {
+                i.incompatible.add(this);
+            }
+        }
+        if (composedOf.length != 0) {
+            this.composedOf = Arrays.asList(composedOf);
+            for (VariantNames i : composedOf) {
+                i.partOf.add(this);
+            }
+        }
     }
 
     VariantNames(String id, VariantLoader loaderClass, VariantNames[] composedOf, VariantNames[] incompatible) {
@@ -107,18 +118,26 @@ public enum VariantNames {
 
     // does the id match a variant's id
     public static boolean contains(String... id) {
-        List<String> active = getVariantNames();
+        List<String> vars = getVariantNames();
         for (String s : id) {
-            if (active.contains(s.toUpperCase())) return true;
+            if (vars.contains(s.toUpperCase())) return true;
         }
         return false;
     }
 
-    // does the id match a variant's id
+    // does the id match an active variant's id
     public static boolean activeContains(String... id) {
         List<String> active = Arrays.asList(GeneralConfig.activeVariants);
         for (String s : id) {
+            // if contained directly
             if (active.contains(s.toUpperCase())) return true;
+            // now check if it's contained as a part of a composite variant
+            VariantNames v = getVariantFromID(s.toUpperCase());
+            if (v != null && !v.compositionVariant && !v.partOf.isEmpty()) {
+                for (VariantNames va : v.partOf) {
+                    if (active.contains(va.id)) return true;
+                }
+            }
         }
         return false;
     }
