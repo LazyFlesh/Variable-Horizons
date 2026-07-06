@@ -8,13 +8,11 @@ import gregtech.api.util.GTModHandler;
 
 public class NoRocket extends VariantLoader implements IRuntimeVariant {
 
-    VariantNames variant = VariantNames.NO_ROCKET;
-
     public NoRocket() {}
 
     @Override
     public void loadVariant(VariantNames... activeVariants) {
-        this.variant.hasLoaded = true;
-        GTModHandler.removeRecipeByOutput(GTModHandler.getModItem(Mods.GalacticraftCore.ID, "tile.rocketWorkbench"));
+        VariantNames.NO_ROCKET.hasLoaded = true;
+        GTModHandler.removeRecipeByOutput(GTModHandler.getModItem(Mods.GalacticraftCore.ID, "rocketWorkbench"));
     }
 }

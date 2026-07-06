@@ -2,9 +2,6 @@ package com.LazyFlesh.variablehorizons.variants;
 
 import java.util.List;
 
-import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-
 import com.LazyFlesh.variablehorizons.Config.GeneralConfig;
 import com.LazyFlesh.variablehorizons.VariableHorizons;
 import com.LazyFlesh.variablehorizons.variants.runtime.IRuntimeVariant;
@@ -46,18 +43,15 @@ public abstract class VariantLoader {
 
     public abstract void loadVariant(VariantNames... activeVariants);
 
-    public static void toggleVariant(ICommandSender sender, VariantNames name, boolean state) {
+    public static String toggleVariant(VariantNames name, boolean state) {
         if (state) {
             if (VariantNames.activeContains(name.id)) {
-                sender.addChatMessage(new ChatComponentText("Variant already active."));
-                return;
+                return "Variant already active.";
             } else {
                 if (name.incompatible != null) {
                     for (VariantNames incompatible : name.incompatible) {
                         if (VariantNames.activeContains(incompatible.id)) {
-                            sender.addChatMessage(
-                                new ChatComponentText("Variant is incompatible with an active variant."));
-                            return;
+                            return "Variant is incompatible with an active variant.";
                         }
                     }
                 }
@@ -70,9 +64,7 @@ public abstract class VariantLoader {
                     }
                     if (v.incompatible != null) {
                         if (v.incompatible.contains(name)) {
-                            sender.addChatMessage(
-                                new ChatComponentText("Variant is incompatible with an active variant."));
-                            return;
+                            return "Variant is incompatible with an active variant.";
                         }
                     }
                 }
@@ -83,24 +75,19 @@ public abstract class VariantLoader {
                 ConfigurationManager.save(GeneralConfig.class);
                 if (name.loaderClass instanceof IRuntimeVariant) {
                     name.loaderClass.loadVariant();
-                    sender.addChatMessage(
-                        new ChatComponentText("Client/world restart may be required for change to take effect."));
-                    return;
+                    return "Client/world restart may be required for change to take effect.";
                 }
-                sender.addChatMessage(
-                    new ChatComponentText("Server/instance restart required for change to take effect."));
+                return "Server/instance restart required for change to take effect.";
             }
         } else {
             if (!VariantNames.activeContains(name.id)) {
-                sender.addChatMessage(new ChatComponentText("Variant already inactive."));
-                return;
+                return "Variant already inactive.";
             } else {
                 List<String> active = VariantNames.getActiveVariantNames();
                 active.remove(name.id);
                 GeneralConfig.activeVariants = active.toArray(new String[0]);
                 ConfigurationManager.save(GeneralConfig.class);
-                sender.addChatMessage(
-                    new ChatComponentText("Server/instance restart required for change to take effect."));
+                return "Server/instance restart required for change to take effect.";
             }
         }
     }
